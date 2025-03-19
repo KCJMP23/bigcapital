@@ -192,16 +192,14 @@ services:
 # Volumes
 volumes:
   mysql:
-    name: bigcapital_prod_mysql
-    driver: local
-
+    external:
+      name: bigcapital_prod_mysql
   mongo:
-    name: bigcapital_prod_mongo
-    driver: local
-
+    external:
+      name: bigcapital_prod_mongo
   redis:
-    name: bigcapital_prod_redis
-    driver: local
+    external:
+      name: bigcapital_prod_redis
 
 # Networks
 networks:
