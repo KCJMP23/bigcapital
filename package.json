@@ -2,6 +2,7 @@
   "name": "bigcapital-monorepo",
   "private": true,
   "scripts": {
+    "start": "node server.js"
     "dev": "lerna run dev",
     "build": "lerna run build",
     "dev:webapp": "lerna run dev --scope \"@bigcapital/webapp\" --scope \"@bigcapital/utils\" --scope \"@bigcapital/pdf-templates\"",
