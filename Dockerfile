@@ -1,20 +1,27 @@
-# Use an official Python image as a base
-FROM python:3.9-slim
+# Use Node 18 (Alpine variant for smaller image)
+FROM node:18-alpine
 
-# Set the working directory in the container
+# Create and set work directory
 WORKDIR /app
 
-# Copy your BigCapital project files into the container
-COPY . /app
+# Globally install pnpm
+RUN npm install -g pnpm
 
-# Install required Python packages from requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy only package files first (better cache)
+COPY package.json pnpm-lock.yaml ./
 
-# Expose the port BigCapital listens on
-EXPOSE 8000
+# Install dependencies
+RUN pnpm install --force
 
-# Set a default environment variable (this can be overridden later)
-ENV BASE_URL=http://localhost:8000
+# Copy the rest of your code
+COPY . .
 
-# Run BigCapital (adjust the command if needed)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# If you need a build step:
+# RUN pnpm run build
+
+# Expose the port Cloud Run expects (default 8080)
+ENV PORT=8080
+EXPOSE 8080
+
+# Start command: run "pnpm start" (ensure your "start" script is correct)
+CMD ["pnpm", "start"]
